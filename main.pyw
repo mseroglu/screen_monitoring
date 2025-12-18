@@ -46,8 +46,12 @@ def main():
                 # 2. İşlem: Görüntü al ve kaydet
                 capture.take_screenshot(current_session_folder)
             
-            # Belirlenen süre kadar bekle (örn. 60 sn)
-            time.sleep(config.INTERVAL)
+            # Belirlenen süre kadar bekle (örn. 60 sn), ama her saniye durdurma sinyalini kontrol et
+            for _ in range(config.INTERVAL):
+                if os.path.exists(stop_file_path):
+                    # Döngüyü kır, yukarıdaki kontrole gidecek ve kapanacak
+                    break
+                time.sleep(1)
             
         except Exception:
             # Beklenmedik bir hata olursa programın çökmemesi için
